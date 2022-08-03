@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600&amp;display=fallback">
+    <title>Bookshelf Apps</title>
+</head>
+<body>
+    <header class="my_header">
+        <h1 class="my_header_title">My <span class="ijo">Book</span>shelf A<span class="ijo">p</span>ps</h1>
+        <!--<button class="theme">Change Theme</button>*-->
+    </header>
+    <main>
+        <section class="input_zone">
+        <h2>Masukkan Buku Baru</h2>
+        <form id="inputBuku" action="">
+            <div class="input">
+                <label for="inputBookTitle">Judulnya</label>
+                <input id="inputBookTitle" type="text" required>
+            </div>
+            <div class="input">
+                <label for="inputBookAuthor">Penulisnya</label>
+                <input id="inputBookAuthor" type="text" required>
+            </div>
+            <div class="input">
+                <label for="inputBookYear">Tahunnya</label>
+                <input id="inputBookYear" type="number" required>
+            </div>
+            <div class="input">
+                <label for="inputBookDate">Target selesai</label>
+                <input type="date" id="inputBookDate" required>
+              </div>
+            <div class="input_inline">
+                <label for="inputBookIsComplete">Selesai Dibaca?</label>
+                <input type="checkbox" id="inputBookIsComplete">
+            </div>
+            <button id="submitBook" type="submit">Masukkan Buku ke rak <span id="submitStatus">Belum Selesai</span></button>
+            <button id="submitBookChange" type="submit">Edit buku dan masukkan ke rak <span id="submitStatusChange">Belum Selesai</span></button>
+        </form>
+        </section>
+
+        <section class="search_zone">
+            <h2>Cari Buku</h2>
+            <form id="searchBook">
+                <div class="input">
+                <label for="searchBookTitle">Judulnya</label>
+                <input id="searchBookTitle" type="text">
+                <button id="searchSubmit" type="submit">Cari</button>
+                </div>
+            </form>
+        </section>
+        
+        <section class="book_shelf">
+            <h2>Belum selesai dibaca</h2>
+            <div id="incompleteBookShelfList" class="book_list">
+            </div>
+        </section>
+
+        <section class="book_shelf">
+            <h2>Selesai dibaca</h2>
+            <div id="completeBookShelfList" class="book_list">
+            </div>
+        </section>
+    </main>
+    <footer class="footer">
+        <p>2022 | Fahmi Nabil Maulana</p>
+    </footer>
+    <script src="main.js"></script>
+</body>
+</html>
