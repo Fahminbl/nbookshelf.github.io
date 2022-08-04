@@ -14,7 +14,12 @@
         <!--<button class="theme">Change Theme</button>*-->
     </header>
     <main>
-        <section class="input_zone">
+
+        <button id="showInputBuku">Masukkan Buku Baru</button>
+
+    <div id="modalBuku">
+        <span class="close">&times;</span>
+            <section class="input_zone" id="modalKonten">
         <h2>Masukkan Buku Baru</h2>
         <form id="inputBuku" action="">
             <div class="input">
@@ -41,13 +46,13 @@
             <button id="submitBookChange" type="submit">Edit buku dan masukkan ke rak <span id="submitStatusChange">Belum Selesai</span></button>
         </form>
         </section>
+        
+    </div>
 
         <section class="search_zone">
-            <h2>Cari Buku</h2>
             <form id="searchBook">
                 <div class="input">
-                <label for="searchBookTitle">Judulnya</label>
-                <input id="searchBookTitle" type="text">
+                <input id="searchBookTitle" type="text" placeholder="Masukkan Judul Buku">
                 <button id="searchSubmit" type="submit">Cari</button>
                 </div>
             </form>

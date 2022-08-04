@@ -1,11 +1,22 @@
 document.addEventListener('DOMContentLoaded', function() {
-    confirm('Aplikasi berhasil dimuat, silahkan jelajahi fitur di dalamnya!');
-    const submitForm = document.getElementById('submitBook');
-    submitForm.addEventListener('click', function(event){
+    confirm('Aplikasi berhasil dimuat, silahkan jelajahi fitur di dalamnya!, gunakan fullscreen untuk layout lebih baik');
+    const masukkanBuku = document.getElementById('showInputBuku');
+	masukkanBuku.addEventListener('click', function(){
+		openForm();
+	});
+	const submitForm = document.getElementById('inputBuku');
+    submitForm.onsubmit = function(event){
         event.preventDefault();
+		if (ifEmpty()) {
         addBook();
 		clearInput();
-    });
+		closeForm();
+		}
+    };
+	const closeButton = document.getElementsByClassName('close')[0];
+	closeButton.onclick = function(){
+		closeForm();
+	}
 	const submitFormChange = document.getElementById('submitBookChange');
 	submitFormChange.style.display = 'none';
 
@@ -21,8 +32,8 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 const SAVED_EVENT = 'saved-book';
 const STORAGE_KEY = 'BOOK_LIST';
-let books = [];
 const RENDER_EVENT = 'render-book';
+let books = [];
 const BOOK_ID = 'bookId';
 const BOOK_INCOMPLETED_ID = "incompleteBookShelfList"
 const BOOK_COMPLETED_ID = "completeBookShelfList"
@@ -46,6 +57,55 @@ editselesaiDibaca.addEventListener('click', function() {
 		document.getElementById('submitStatusChange').innerText = 'Belum selesai dibaca';
 	}
 });
+
+document.addEventListener(RENDER_EVENT, function(){
+	var completedList, incompletedList;
+	completedList = document.getElementById(BOOK_COMPLETED_ID);
+	incompletedList = document.getElementById(BOOK_INCOMPLETED_ID);
+
+	for (let item of books) {
+		const myBook = makeBookShelfList(item.bookTitle, item.bookAuthor, item.bookYear, item.timeStamp, item.isComplete);
+		myBook[BOOK_ID] = item.id;
+		
+		if (item.isComplete) {
+			completedList.append(myBook);
+		} else {
+			incompletedList.append(myBook);
+		}
+	}
+});
+
+function openForm() {
+	const submitForm = document.getElementById('modalBuku');
+	submitForm.style.display = 'flex';
+}
+
+function closeForm() {
+	const submitForm = document.getElementById('modalBuku');
+	submitForm.style.display = 'none';
+}
+
+function ifEmpty(){
+	const bookTitle = document.getElementById('inputBookTitle').value;
+	const bookAuthor = document.getElementById('inputBookAuthor').value;
+	const bookYear = document.getElementById('inputBookYear').value;
+	const timeStamp = document.getElementById('inputBookDate').value;
+	if (bookAuthor == "") {
+		alert('silahkan masukkan penulis buku!');
+		return false
+	} else if (bookTitle == "") {
+		alert('silahkan masukkan judul!');
+		return false;
+	} else if (bookYear == "") {
+		alert('silahkan masukkan tahun terbit!');
+		return false;
+	} else if (timeStamp == "") {
+		alert('silahkan masukkan target membaca!');
+		return false;
+	} else {
+		return true;
+	}
+}
 
 function addBook() {
 	const bookTitle = document.getElementById('inputBookTitle').value;
@@ -179,7 +239,7 @@ function generateChangeButton() {
 	return addButton('Edit buku', 'blue',function(event){
 		const elder = event.target.parentElement;
 		changeBookContent(elder.parentElement);
-	})
+	});
 }
 
 function addBookToCompleted(booksElement){
@@ -196,6 +256,7 @@ function addBookToCompleted(booksElement){
 	completedList.append(newBookList);
 	booksElement.remove();
 	alert('Anda telah memindahkan buku ke rak bawah');
+	/*saveBook();*/
 }
 
 function undoBookFromCompleted(booksElement){
@@ -212,6 +273,7 @@ function undoBookFromCompleted(booksElement){
 	incompletedList.append(newBookList);
 	booksElement.remove();
 	alert('Anda Telah Memindahkan buku ke Rak Atas');
+	/*saveBook();*/
 }
 
 function removeBook(bookId){
@@ -228,11 +290,11 @@ function removeBook(bookId){
 	} else {
 		return null;
 	}
+	/*saveBook();*/
 }
 
 function changeBookContent(booksElement) {
-	const yaqin = confirm('anda yakin ingin mengedit buku ini?');
-	if (yaqin) {
+	openForm();
 	const changeButton = document.getElementById('submitBookChange');
 	changeButton.style.display = 'block';
 	document.getElementById('inputBookTitle').value = booksElement.querySelector('.book_title').innerText;
@@ -241,28 +303,38 @@ function changeBookContent(booksElement) {
 	document.getElementById('inputBookDate').value = booksElement.querySelector('.book_timestamp').innerText;
 	document.getElementById('submitBook').style.display = 'none';
 	booksElement.remove();
-	alert('buku dikembalikan ke menu input');
-	changeButton.addEventListener('click', function(event){
+	const closeButton = document.getElementsByClassName('close')[0];
+	closeButton.onclick = function(){
+		closeForm();
+	}
+	const submitForm = document.getElementById('inputBuku');
+    submitForm.onsubmit = function(event){
+      /*  event.preventDefault();
+		if (ifEmpty()) {
+        addBook();
+		clearInput();
+		closeForm();
+		}*/
 		event.preventDefault();
+		if(closeButton.clicked){
+			booksElement.append();
+		}
 		addChangedBook();
-	});
-} else {
-	return null;
-}
+    };
+	/*changeButton.addEventListener('click', function(event){
+
+	});*/
 }
 
 function addChangedBook(){
-	const yaqin = confirm('simpan perubahan ini?');
 	const submitBook = document.getElementById('submitBook');
 	const submitBookChange = document.getElementById('submitBookChange');
-	if (yaqin){
 	addBook();
 	clearInput();
+	closeForm();
 	submitBookChange.style.display = 'none';
 	submitBook.style.display = 'block'
-	} else {
-	return null;
-	}
+	/*saveBook();*/
 }
 
 
@@ -300,7 +372,6 @@ function searchYourBook(){
 			bookItem[i].style.display = "none";
 		}
 	}
-	alert('pencarian selesai');
 }
 
 function isStorageExist(){
@@ -322,3 +393,15 @@ function loadDataFromStorage(){
 
 	document.dispatchEvent(new Event(RENDER_EVENT));
 }
+
+function saveBook() {
+	if (isStorageExist()){
+		const parsedBook = JSON.stringify(books);
+		localStorage.setItem(STORAGE_KEY, parsedBook);
+		document.dispatchEvent(new Event(SAVED_EVENT));
+	}
+}
+
+document.addEventListener(SAVED_EVENT, function() {
+	console.log(localStorage.getItem(STORAGE_KEY));
+})
