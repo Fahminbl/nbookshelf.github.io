@@ -279,11 +279,16 @@ function ifEmpty(){
 }
 
 function removeBook(booksElement){
+	let yaqin = confirm('Mau menghapus buku ini?');
+	if (yaqin) {
 	const bookLocation = findBookIndex(booksElement[BOOK_ID]);
 	books.splice(bookLocation, 1);
 
 	booksElement.remove();
 	updateBookData();
+	} else {
+		return false;
+	}
 }
 
 
@@ -296,7 +301,15 @@ function addChangedBook(booksElement){
 	clearInput();
 	submitBookChange.style.display = 'none';
 	submitBook.style.display = 'block'
-	removeBook(booksElement);
+	removeBookEdited(booksElement);
+}
+
+function removeBookEdited(booksElement){
+	const bookLocation = findBookIndex(booksElement[BOOK_ID]);
+	books.splice(bookLocation, 1);
+
+	booksElement.remove();
+	updateBookData();
 }
 
 function searchYourBook(){
