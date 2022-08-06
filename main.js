@@ -228,6 +228,10 @@ function changeBookContent(booksElement) {
 	const closeButton = document.getElementsByClassName('close')[0];
 	closeButton.onclick = function(){
 		closeForm();
+		submitBookChange.style.display = 'none';
+		submitBook.style.display = 'block'
+		clearInput();
+		
 	}
 	const submitForm = document.getElementById('inputBuku');
     submitForm.onsubmit = function(event){
