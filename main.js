@@ -228,9 +228,6 @@ function changeBookContent(booksElement) {
 	const closeButton = document.getElementsByClassName('close')[0];
 	closeButton.onclick = function(){
 		closeForm();
-		submitBookChange.style.display = 'none';
-		submitBook.style.display = 'block'
-		clearInput();
 		
 	}
 	const submitForm = document.getElementById('inputBuku');
@@ -250,8 +247,13 @@ function openForm() {
 }
 
 function closeForm() {
+	const submitBook = document.getElementById('submitBook');
 	const submitForm = document.getElementById('modalBuku');
+	const submitBookChange = document.getElementById('submitBookChange');
 	submitForm.style.display = 'none';
+	submitBookChange.style.display = 'none';
+	submitBook.style.display = 'block'
+	clearInput();
 }
 
 function ifEmpty(){
