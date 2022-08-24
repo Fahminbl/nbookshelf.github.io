@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
-
+	alert("Web ini saya hack!");
+	
     const masukkanBuku = document.getElementById('showInputBuku');
 	masukkanBuku.addEventListener('click', function(){
 		openForm();
