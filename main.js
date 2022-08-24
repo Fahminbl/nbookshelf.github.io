@@ -422,3 +422,5 @@ function loadDataFromList() {
 		}
 	}
 }
+
+const myBio = [fahmi, 18, 2004];
